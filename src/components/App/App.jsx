@@ -1,39 +1,23 @@
-import { useSelector, useDispatch } from "react-redux";
-
-import Contacts from "../Contacts /Contacts ";
-import FindContacts from "../FindContacts/FindContacts";
-import InputContacts from "../InputContacts/InputContacts";
-import { useEffect } from "react";
-import { contactsOperations } from "redux/contacts";
-
-const { getContacts, deleteContacts } = contactsOperations;
+import { useState } from "react";
+import ModalProduct from "../ModalProduct/ModalProduct";
+import Filter from "components/Filter/Filter";
+import Products from "components/Products/Products";
 
 const App = () => {
-  const contacts = useSelector((state) => state.contacts.data.items);
-  const filter = useSelector((state) => state.contacts.filter);
-  // const error = useSelector((state) => state.contacts.data.error);
-  // const loading = useSelector((state) => state.contacts.data.loading);
-  const dispatch = useDispatch();
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
-  useEffect(() => {
-    dispatch(getContacts());
-  }, [dispatch]);
-
-  const getFilterContacts = () => {
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
-
-  const onDaleteCard = (idDelete) => {
-    dispatch(deleteContacts(idDelete));
+  const toggleForm = () => {
+    setIsFormOpen((prevIsFormopen) => !prevIsFormopen);
   };
 
   return (
-    <div className="main">
-      <InputContacts />
-      <FindContacts />
-      <Contacts items={getFilterContacts(filter)} onDaleteCard={onDaleteCard} />
+    <div>
+      <button type="button" onClick={toggleForm}>
+        Add Product
+      </button>
+      {isFormOpen && <ModalProduct onCloseForm={toggleForm} />}
+      <Filter />
+      <Products />
     </div>
   );
 };

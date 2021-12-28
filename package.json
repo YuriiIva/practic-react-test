@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-07-phonebook",
+  "name": "practic-react-test",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://YuriiIva.github.io/goit-react-hw-07-phonebook",
+  "homepage": "https://YuriiIva.github.io/practic-react-test",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
