@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 import s from "./ModalProduct.module.css";
+import Products from "../Products/Products";
 
 const INITIAL_STATE = {
   name: "",
@@ -16,9 +17,13 @@ const INITIAL_STATE = {
 const ModalProduct = ({ onCloseForm }) => {
   const [formData, setFormData] = useState({ ...INITIAL_STATE });
   const [newProduct, setNewProduct] = useState({});
+  const [products, setProducts] = useState([]);
 
-  console.log("newProduct", newProduct);
-  console.log(`formData`, formData);
+  const addProducts = () => {
+    setProducts([...newProduct]);
+  };
+
+  console.log(`products`, products);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -32,7 +37,7 @@ const ModalProduct = ({ onCloseForm }) => {
   useEffect(() => {
     const onEscPress = (e) => {
       if (e.code === "Escape") {
-        onclose();
+        onCloseForm();
       }
     };
 
@@ -40,7 +45,7 @@ const ModalProduct = ({ onCloseForm }) => {
     return () => {
       window.removeEventListener("keydown", onEscPress);
     };
-  }, []);
+  }, [onCloseForm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,16 +56,19 @@ const ModalProduct = ({ onCloseForm }) => {
     // onCloseForm();
   };
 
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onCloseForm();
+    }
+  };
+
   const reset = () => {
     setFormData({ ...INITIAL_STATE });
   };
 
   return (
-    <div className={s.backdrop}>
-      <div
-        className={s.modal}
-        //   onClick={handleBackdropClick}
-      >
+    <div className={s.backdrop} onClick={handleBackdropClick}>
+      <div className={s.modal}>
         <div>
           <header className={s.header}>
             <button
@@ -181,6 +189,7 @@ const ModalProduct = ({ onCloseForm }) => {
           </div>
         </div>
       </div>
+      <Products newProduct={newProduct} />
     </div>
   );
 };

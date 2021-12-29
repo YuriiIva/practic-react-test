@@ -17,7 +17,6 @@ const App = () => {
       </button>
       {isFormOpen && <ModalProduct onCloseForm={toggleForm} />}
       <Filter />
-      <Products />
     </div>
   );
 };
