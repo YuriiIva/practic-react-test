@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import s from "./ModalProduct.module.css";
 import Products from "../Products/Products";
+import { nanoid } from "nanoid";
 
 const INITIAL_STATE = {
   name: "",
@@ -19,11 +20,10 @@ const ModalProduct = ({ onCloseForm }) => {
   const [newProduct, setNewProduct] = useState({});
   const [products, setProducts] = useState([]);
 
-  const addProducts = () => {
-    setProducts([...newProduct]);
-  };
-
-  console.log(`products`, products);
+  // useEffect(() => {
+  //   console.log(`newProduct`, newProduct);
+  //   setProducts([...newProduct]);
+  // }, [newProduct]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -31,6 +31,7 @@ const ModalProduct = ({ onCloseForm }) => {
     setFormData({
       ...formData,
       [name]: isCheckBox ? checked : value,
+      id: nanoid(),
     });
   };
 
@@ -49,11 +50,10 @@ const ModalProduct = ({ onCloseForm }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setNewProduct({
-      ...formData,
-    });
+
+    setProducts([...products, formData]);
     reset();
-    // onCloseForm();
+    onCloseForm();
   };
 
   const handleBackdropClick = (e) => {
@@ -189,7 +189,7 @@ const ModalProduct = ({ onCloseForm }) => {
           </div>
         </div>
       </div>
-      <Products newProduct={newProduct} />
+      <Products products={products} />
     </div>
   );
 };
