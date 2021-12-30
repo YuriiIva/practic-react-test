@@ -1,10 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalProduct from "../ModalProduct/ModalProduct";
 import Filter from "components/Filter/Filter";
 import Products from "components/Products/Products";
 import Modal from "components/common/Modal/Modal";
 import ModalChange from "components/ModalChange/ModalChange";
+import ModalEdite from "../ModalEdite/ModalEdite";
 
 const Shop = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -36,12 +37,15 @@ const Shop = () => {
 
   const onEdit = () => {
     setEditProduct(
-      newProducts.filter((newProduct) => newProduct.id === idChange)
+      ...newProducts.filter((newProduct) => newProduct.id === idChange)
     );
+    setIsChangeFormOpen(false);
+    setIsFormOpen(true);
   };
 
   const toggleForm = () => {
     setIsFormOpen((prevIsFormopen) => !prevIsFormopen);
+    setEditProduct("");
   };
 
   return (
@@ -49,15 +53,16 @@ const Shop = () => {
       <button type="button" onClick={toggleForm}>
         Add Product
       </button>
-      {isFormOpen && (
+      {isFormOpen && onNewProduct && (
         <Modal onCloseForm={toggleForm}>
           <ModalProduct
             onCloseForm={toggleForm}
             onNewProduct={onNewProduct}
-            editProduct={editProduct}
+            editProductModal={editProduct}
           />
         </Modal>
       )}
+
       {/* <Filter /> */}
       {newProducts.length && (
         <Products products={newProducts} handleBtnChange={handleBtnChange} />
