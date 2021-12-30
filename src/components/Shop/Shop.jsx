@@ -5,7 +5,6 @@ import Filter from "components/Filter/Filter";
 import Products from "components/Products/Products";
 import Modal from "components/common/Modal/Modal";
 import ModalChange from "components/ModalChange/ModalChange";
-import ModalEdite from "../ModalEdite/ModalEdite";
 
 const Shop = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -50,7 +49,7 @@ const Shop = () => {
 
   return (
     <div>
-      <button type="button" onClick={toggleForm}>
+      <button type="button" onClick={toggleForm} className="mainBtn">
         Add Product
       </button>
       {isFormOpen && onNewProduct && (
@@ -63,8 +62,8 @@ const Shop = () => {
         </Modal>
       )}
 
-      {/* <Filter /> */}
-      {newProducts.length && (
+      {newProducts.length > 0 && <Filter />}
+      {newProducts.length > 0 && (
         <Products products={newProducts} handleBtnChange={handleBtnChange} />
       )}
       {isChangeFormOpen && (

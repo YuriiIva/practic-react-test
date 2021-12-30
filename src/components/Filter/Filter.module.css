@@ -1,0 +1,13 @@
+.filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input {
+  margin-left: 20px;
+}
+.label {
+  letter-spacing: 2px;
+  color: rgb(2, 2, 29);
+  text-shadow: 12px 2px 4px rgba(180, 20, 20, 0);
+}

@@ -22,3 +22,17 @@ code {
   margin-top: 10px;
   border-radius: 10%;
 }
+.mainBtn {
+  margin: 15px;
+  padding: 5px;
+  border-radius: 10%;
+  border: 2px solid rgb(35, 16, 119);
+  background-color: rgb(15, 138, 175);
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+.mainBtn:hover {
+  background-color: darkcyan;
+  box-shadow: 0 1px 1px 0;
+  color: aliceblue;
+}
