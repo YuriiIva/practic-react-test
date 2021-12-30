@@ -15,9 +15,11 @@ const INITIAL_STATE = {
   isFullTime: false,
 };
 
-const ModalProduct = ({ onCloseForm, onNewProduct }) => {
+const ModalProduct = ({ onCloseForm, onNewProduct, editProduct }) => {
   const [formData, setFormData] = useState({ ...INITIAL_STATE });
   const [product, setProduct] = useState(null);
+
+  console.log(`editProduct`, editProduct);
 
   useEffect(() => {
     if (!product) return;

@@ -22,6 +22,7 @@ const Modal = ({ onCloseForm, children }) => {
       onCloseForm();
     }
   };
+
   return (
     <div>
       <div className={s.backdrop} onClick={handleBackdropClick}>
