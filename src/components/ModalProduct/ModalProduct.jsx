@@ -56,14 +56,9 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
 
   // /////Edit ////////
 
-  console.log(`editProductModal`, editProductModal);
-  console.log(`isModalEditOpen`, isModalEditOpen);
-
   useEffect(() => {
     if (!editProductModal) return;
     setIsModalEditOpen(true);
-    console.log(`editProductModal.name`, editProductModal.name);
-    // setEditProd(editProductModal);
     setName(editProductModal.name);
   }, [editProductModal]);
 

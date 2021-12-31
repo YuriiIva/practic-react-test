@@ -11,7 +11,7 @@ const Products = ({ products, handleBtnChange }) => {
       {products.length &&
         products.map(({ name, id }) => (
           <li key={id} className={s.item}>
-            <h2 className={s.title}>Product: {name}</h2>
+            <h2 className={s.title}>{name}</h2>
             <AiOutlineBars onClick={() => handleBtnChange(id)} />
           </li>
         ))}

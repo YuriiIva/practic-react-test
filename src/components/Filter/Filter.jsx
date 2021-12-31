@@ -1,7 +1,16 @@
-import React from "react";
 import s from "./Filter.module.css";
+import { useState, useEffect } from "react";
 
-const Filter = () => {
+const Filter = ({ onSerchProduct }) => {
+  const [searchProd, setSearchProd] = useState("");
+
+  const handleSearch = (e) => {
+    setSearchProd(e.target.value);
+  };
+  useEffect(() => {
+    onSerchProduct(searchProd);
+  }, [onSerchProduct, searchProd]);
+
   return (
     <div className={s.filter}>
       <label htmlFor="" className={s.label}>
@@ -9,10 +18,10 @@ const Filter = () => {
         <input
           type="text"
           name="width"
-          value=""
+          value={searchProd}
           placeholder="input name"
           required
-          // onChange={handleChange}
+          onChange={handleSearch}
           className={s.input}
         />
       </label>

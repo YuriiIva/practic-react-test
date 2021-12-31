@@ -12,6 +12,7 @@ const Shop = () => {
   const [isChangeFormOpen, setIsChangeFormOpen] = useState(false);
   const [idChange, setIdChange] = useState("");
   const [editProduct, setEditProduct] = useState("");
+  const [filter, setFilter] = useState("");
 
   const onNewProduct = (prod) => {
     setNewProducts([...newProducts, prod]);
@@ -47,6 +48,13 @@ const Shop = () => {
     setEditProduct("");
   };
 
+  const onSerchProduct = (searchProd) => {
+    if (!searchProd) return;
+    return newProducts.filter((newProduct) =>
+      newProduct.name.toLowerCase().includes(searchProd.toLowerCase())
+    );
+  };
+
   return (
     <div>
       <button type="button" onClick={toggleForm} className="mainBtn">
@@ -62,7 +70,7 @@ const Shop = () => {
         </Modal>
       )}
 
-      {newProducts.length > 0 && <Filter />}
+      {newProducts.length > 0 && <Filter onSerchProduct={onSerchProduct} />}
       {newProducts.length > 0 && (
         <Products products={newProducts} handleBtnChange={handleBtnChange} />
       )}
