@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import * as Api from "services/Api";
 
 import s from "./ModalProduct.module.css";
 
@@ -15,7 +16,14 @@ const INITIAL_STATE = {
   isFullTime: false,
 };
 
-const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
+const API_ANDPOINT = "products";
+
+const ModalProduct = ({
+  onCloseForm,
+  onNewProduct,
+  editProductModal,
+  changeProductName,
+}) => {
   const [formData, setFormData] = useState({ ...INITIAL_STATE });
   const [product, setProduct] = useState(null);
   // const [editProd, setEditProd] = useState("");
@@ -24,15 +32,18 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
     editProductModal ? true : false
   );
 
+  /////add/////
+
   useEffect(() => {
     if (!product) return;
-    const addNewProduct = () => {
-      onNewProduct(product);
+    const addNewProduct = async () => {
+      const newProducts = await Api.saveItem(API_ANDPOINT, product);
+      onNewProduct(newProducts);
       setProduct(null);
       onCloseForm();
     };
     addNewProduct();
-  }, [onCloseForm, onNewProduct, product]);
+  }, [product]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,6 +69,7 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
 
   useEffect(() => {
     if (!editProductModal) return;
+
     setIsModalEditOpen(true);
     setName(editProductModal.name);
   }, [editProductModal]);
@@ -68,7 +80,9 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    editProductModal.name = name;
+    // editProductModal.name = name;
+
+    changeProductName(name);
     setIsModalEditOpen(false);
     setName("");
     onCloseForm();
@@ -118,7 +132,7 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
           <label htmlFor="" className={s.label}>
             weight
             <input
-              type="text"
+              type="number"
               name="weight"
               value={formData.weight}
               placeholder="input weight"
@@ -131,7 +145,7 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
             <label htmlFor="" className={s.label}>
               width
               <input
-                type="text"
+                type="number"
                 name="width"
                 value={formData.width}
                 placeholder="input width"
@@ -141,12 +155,12 @@ const ModalProduct = ({ onCloseForm, onNewProduct, editProductModal }) => {
               />
             </label>
             <label htmlFor="" className={s.label}>
-              height
+              hight
               <input
-                type="text"
-                name="height"
-                value={formData.height}
-                placeholder="input height"
+                type="number"
+                name="hight"
+                value={formData.hight}
+                placeholder="input hight"
                 required
                 onChange={handleChange}
                 className={s.input}
