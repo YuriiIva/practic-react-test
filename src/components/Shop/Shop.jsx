@@ -1,5 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setProducts,
+  editProduct,
+  deleteProduct,
+} from "../../redux/products/productsAction";
 import ModalProduct from "../ModalProduct/ModalProduct";
 import Filter from "components/Filter/Filter";
 import Products from "components/Products/Products";
@@ -11,74 +17,60 @@ const API_ANDPOINT = "products";
 
 const Shop = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [newProducts, setNewProducts] = useState([]);
   const [isChangeFormOpen, setIsChangeFormOpen] = useState(false);
   const [idChange, setIdChange] = useState("");
-  const [changeName, setChangeName] = useState("");
-  const [activeProduct, setActiveProduct] = useState({});
-  const [editProduct, setEditProduct] = useState({});
-  const [filter, setFilter] = useState("");
+  const [activeProduct, setActiveProduct] = useState(null);
+  const [editProductS, setEditProductS] = useState({});
+
+  const allProducts = useSelector((state) => state.products.items);
+  const dispatch = useDispatch();
 
   /////set////////
 
   useEffect(() => {
-    const setProducts = async () => {
+    const setProducts1 = async () => {
       const products = await Api.getData(API_ANDPOINT);
-      setNewProducts([...products]);
+      dispatch(setProducts([...products]));
     };
-    setProducts();
-  }, []);
+    setProducts1();
+  }, [dispatch]);
 
-  const onNewProduct = (prod) => {
-    setNewProducts([...newProducts, prod]);
-  };
+  ////////// edit ///////////
 
   const handleBtnChange = (id) => {
     setIsChangeFormOpen(true);
     setIdChange(id);
   };
 
-  ////////// edit ///////////
-
   const onEdit = () => {
-    setEditProduct(
-      ...newProducts.filter((newProduct) => newProduct.id === idChange)
+    setEditProductS(
+      ...allProducts.filter((newProduct) => newProduct.id === idChange)
     );
     setIsChangeFormOpen(false);
     setIsFormOpen(true);
   };
 
-  const changeProductName = async (changeProd) => {
-    if (editProduct.name === changeProd) return;
+  const changeProductName = (changeProd) => {
+    if (editProductS.name === changeProd) return;
 
-    // if (!changeProd) return;
-    console.log(`changeProd`, changeProd);
-    console.log(`editProduct`, editProduct.name);
-    setActiveProduct({ ...editProduct, name: changeProd });
-
-    const newEditProduct = await Api.editItem(API_ANDPOINT, activeProduct);
-    console.log(`newEditProduct`, newEditProduct);
+    setActiveProduct({ ...editProductS, name: changeProd });
   };
-  // console.log(`activeProduct`, activeProduct);
 
-  // useEffect(() => {
-  //   if (!activeProduct) return;
-  //   // console.log(`activeProduct`, activeProduct);
+  useEffect(() => {
+    if (!activeProduct) return;
 
-  //   const onEditProducts = async () => {
-  //     const newEditProduct = await Api.editItem(API_ANDPOINT, activeProduct);
-  //     console.log(`newEditProduct`, newEditProduct);
-  //   };
-  //   onEditProducts();
-  // }, [activeProduct]);
+    const onEditProducts = async () => {
+      const newEditProduct = await Api.editItem(API_ANDPOINT, activeProduct);
+      dispatch(editProduct(newEditProduct));
+    };
+    onEditProducts();
+  }, [activeProduct]);
 
   /////////// Delete //////////
 
   const onDelete = async () => {
     const deleteProd = await Api.deleteItem(API_ANDPOINT, idChange);
-    setNewProducts(
-      newProducts.filter((newProduct) => newProduct.id !== idChange)
-    );
+    dispatch(deleteProduct(deleteProd.id));
     setIsChangeFormOpen(false);
     setIdChange("");
   };
@@ -89,16 +81,8 @@ const Shop = () => {
 
   const toggleForm = () => {
     setIsFormOpen((prevIsFormopen) => !prevIsFormopen);
-    setEditProduct("");
-  };
-
-  //////////Filter ////////////
-
-  const onSerchProduct = (searchProd) => {
-    if (!searchProd) return;
-    return newProducts.filter((newProduct) =>
-      newProduct.name.toLowerCase().includes(searchProd.toLowerCase())
-    );
+    setEditProductS("");
+    setIsChangeFormOpen(false);
   };
 
   return (
@@ -106,20 +90,24 @@ const Shop = () => {
       <button type="button" onClick={toggleForm} className="mainBtn">
         Add Product
       </button>
-      {isFormOpen && onNewProduct && (
+      {isFormOpen && (
         <Modal onCloseForm={toggleForm}>
           <ModalProduct
             onCloseForm={toggleForm}
-            onNewProduct={onNewProduct}
-            editProductModal={editProduct}
+            // onNewProduct={onNewProduct}
+            editProductModal={editProductS}
             changeProductName={changeProductName}
           />
         </Modal>
       )}
 
-      {newProducts.length > 0 && <Filter onSerchProduct={onSerchProduct} />}
-      {newProducts.length > 0 && (
-        <Products products={newProducts} handleBtnChange={handleBtnChange} />
+      {allProducts.length > 0 && <Filter />}
+      {allProducts.length > 0 && (
+        <Products
+          // products={newProducts}
+          // onSerchProduct={onSerchProduct}
+          handleBtnChange={handleBtnChange}
+        />
       )}
       {isChangeFormOpen && (
         <Modal onCloseForm={onCloseChanegForm}>

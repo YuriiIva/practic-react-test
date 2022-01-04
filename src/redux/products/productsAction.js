@@ -15,9 +15,9 @@ const editProduct = (product) => ({
   payload: product,
 });
 
-const deleteProduct = (product) => ({
+const deleteProduct = (id) => ({
   type: TYPE.DELETE,
-  payload: product,
+  payload: id,
 });
 const changeFilter = (value) => ({
   type: TYPE.FILTER,

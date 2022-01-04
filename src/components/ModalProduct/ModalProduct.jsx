@@ -1,5 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setProducts, addProduct } from "../../redux/products/productsAction";
 import * as Api from "services/Api";
 
 import s from "./ModalProduct.module.css";
@@ -26,24 +28,32 @@ const ModalProduct = ({
 }) => {
   const [formData, setFormData] = useState({ ...INITIAL_STATE });
   const [product, setProduct] = useState(null);
-  // const [editProd, setEditProd] = useState("");
+
   const [name, setName] = useState("");
   const [isModalEditOpen, setIsModalEditOpen] = useState(() =>
     editProductModal ? true : false
   );
+  const allProducts = useSelector((state) => state.products.items);
+  const dispatch = useDispatch();
 
   /////add/////
+
+  // const onNewProduct = (prod) => {
+  //   dispatch(addProduct(prod));
+  //   // setNewProducts([...newProducts, prod]);
+  // };
 
   useEffect(() => {
     if (!product) return;
     const addNewProduct = async () => {
       const newProducts = await Api.saveItem(API_ANDPOINT, product);
-      onNewProduct(newProducts);
+      dispatch(addProduct(newProducts));
+      // onNewProduct(newProducts);
       setProduct(null);
       onCloseForm();
     };
     addNewProduct();
-  }, [product]);
+  }, [dispatch, product]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -80,20 +90,11 @@ const ModalProduct = ({
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    // editProductModal.name = name;
-
     changeProductName(name);
     setIsModalEditOpen(false);
     setName("");
     onCloseForm();
   };
-
-  // const whichModal = () => {
-  //   if (editProductModal) {
-  //     return editProductModal;
-  //   }
-  //   return formData;
-  // };
 
   return (
     <div>

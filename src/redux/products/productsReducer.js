@@ -1,10 +1,3 @@
-// {
-//     products: {
-//         items: [],
-//         filter:""
-//     }
-// }
-
 import { combineReducers } from "redux";
 import { TYPE } from "./productsTypes";
 

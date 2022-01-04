@@ -1,15 +1,24 @@
 import s from "./Filter.module.css";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changeFilter } from "../../redux/products/productsAction";
+import { setProducts } from "../../redux/products/productsAction";
 
-const Filter = ({ onSerchProduct }) => {
-  const [searchProd, setSearchProd] = useState("");
+const Filter = () => {
+  const filter = useSelector((state) => state.products.filter);
+  const allProducts = useSelector((state) => state.products.items);
+  const dispatch = useDispatch();
 
-  const handleSearch = (e) => {
-    setSearchProd(e.target.value);
-  };
   useEffect(() => {
-    onSerchProduct(searchProd);
-  }, [onSerchProduct, searchProd]);
+    if (!filter) return;
+    dispatch(
+      setProducts(
+        allProducts.filter((product) =>
+          product.name.toLowerCase().includes(filter.toLowerCase())
+        )
+      )
+    );
+  }, [allProducts, dispatch, filter]);
 
   return (
     <div className={s.filter}>
@@ -18,10 +27,10 @@ const Filter = ({ onSerchProduct }) => {
         <input
           type="text"
           name="width"
-          value={searchProd}
+          value={filter}
           placeholder="input name"
           required
-          onChange={handleSearch}
+          onChange={(e) => dispatch(changeFilter(e.target.value))}
           className={s.input}
         />
       </label>

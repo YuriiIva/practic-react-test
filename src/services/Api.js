@@ -29,6 +29,7 @@ const editItem = (endpoint, item, options = {}) => {
     },
     ...options,
   };
+
   return fetchData(`${endpoint}/${item.id}`, finalOptions);
 };
 
