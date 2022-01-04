@@ -1,5 +1,5 @@
 import s from "./Filter.module.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeFilter } from "../../redux/products/productsAction";
 import { setProducts } from "../../redux/products/productsAction";
@@ -11,6 +11,7 @@ const Filter = () => {
 
   useEffect(() => {
     if (!filter) return;
+
     dispatch(
       setProducts(
         allProducts.filter((product) =>
@@ -18,7 +19,7 @@ const Filter = () => {
         )
       )
     );
-  }, [allProducts, dispatch, filter]);
+  }, [dispatch, filter]);
 
   return (
     <div className={s.filter}>

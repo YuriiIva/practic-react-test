@@ -70,7 +70,7 @@ const Shop = () => {
 
   const onDelete = async () => {
     const deleteProd = await Api.deleteItem(API_ANDPOINT, idChange);
-    dispatch(deleteProduct(deleteProd.id));
+    dispatch(deleteProduct(deleteProd));
     setIsChangeFormOpen(false);
     setIdChange("");
   };
@@ -94,14 +94,13 @@ const Shop = () => {
         <Modal onCloseForm={toggleForm}>
           <ModalProduct
             onCloseForm={toggleForm}
-            // onNewProduct={onNewProduct}
             editProductModal={editProductS}
             changeProductName={changeProductName}
           />
         </Modal>
       )}
 
-      {allProducts.length > 0 && <Filter />}
+      {allProducts.length > 1 && <Filter />}
       {allProducts.length > 0 && (
         <Products
           // products={newProducts}

@@ -38,11 +38,6 @@ const ModalProduct = ({
 
   /////add/////
 
-  // const onNewProduct = (prod) => {
-  //   dispatch(addProduct(prod));
-  //   // setNewProducts([...newProducts, prod]);
-  // };
-
   useEffect(() => {
     if (!product) return;
     const addNewProduct = async () => {
