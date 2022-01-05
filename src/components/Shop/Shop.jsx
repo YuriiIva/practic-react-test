@@ -85,11 +85,14 @@ const Shop = () => {
     setIsChangeFormOpen(false);
   };
 
+  const noProducts = !allProducts.length;
+
   return (
     <div>
       <button type="button" onClick={toggleForm} className="mainBtn">
         Add Product
       </button>
+      {noProducts && <h4 className="absence-msg">No products yet</h4>}
       {isFormOpen && (
         <Modal onCloseForm={toggleForm}>
           <ModalProduct
@@ -101,13 +104,7 @@ const Shop = () => {
       )}
 
       {allProducts.length > 1 && <Filter />}
-      {allProducts.length > 0 && (
-        <Products
-          // products={newProducts}
-          // onSerchProduct={onSerchProduct}
-          handleBtnChange={handleBtnChange}
-        />
-      )}
+      {allProducts.length > 0 && <Products handleBtnChange={handleBtnChange} />}
       {isChangeFormOpen && (
         <Modal onCloseForm={onCloseChanegForm}>
           <ModalChange onDelete={onDelete} onEdit={onEdit} />

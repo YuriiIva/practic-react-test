@@ -1,5 +1,5 @@
 import s from "./Filter.module.css";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeFilter } from "../../redux/products/productsAction";
 import { setProducts } from "../../redux/products/productsAction";
@@ -9,8 +9,20 @@ const Filter = () => {
   const allProducts = useSelector((state) => state.products.items);
   const dispatch = useDispatch();
 
+  // const filteredProducts = useMemo(
+  //   () =>
+  //     dispatch(
+  //       setProducts(
+  //         allProducts.filter((product) =>
+  //           product.name.toLowerCase().includes(filter.toLowerCase())
+  //         )
+  //       )
+  //     ),
+  //   [allProducts, dispatch, filter]
+  // );
+
   useEffect(() => {
-    if (!filter) return;
+    // if (!filter) return;
 
     dispatch(
       setProducts(
@@ -20,6 +32,12 @@ const Filter = () => {
       )
     );
   }, [dispatch, filter]);
+
+  useEffect(() => {
+    if (allProducts.length === 1) {
+      dispatch(changeFilter(""));
+    }
+  }, [allProducts.length, dispatch]);
 
   return (
     <div className={s.filter}>
