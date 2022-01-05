@@ -1,36 +1,64 @@
 import { combineReducers } from "redux";
-import { TYPE } from "./productsTypes";
+// import { TYPE } from "./productsTypes";
+import { createReducer } from "@reduxjs/toolkit";
+import {
+  setProducts,
+  addProduct,
+  editProduct,
+  deleteProduct,
+  changeFilter,
+} from "./productsAction";
 
-const itemsReducer = (state = [], action) => {
-  switch (action.type) {
-    case TYPE.SET:
-      return action.payload;
-
-    case TYPE.ADD:
-      return [...state, action.payload];
-
-    case TYPE.EDIT:
-      return state.map((product) =>
+const itemsReducer = createReducer([], (builder) => {
+  builder
+    .addCase(setProducts, (state, action) => action.payload)
+    .addCase(addProduct, (state, action) => [...state, action.payload])
+    .addCase(editProduct, (state, action) =>
+      state.map((product) =>
         product.id === action.payload.id ? action.payload : product
-      );
+      )
+    )
+    .addCase(deleteProduct, (state, action) =>
+      state.filter((product) => product.id !== action.payload.id)
+    );
+});
 
-    case TYPE.DELETE:
-      return state.filter((product) => product.id !== action.payload.id);
+const filterReducer = createReducer("", (builder) => {
+  builder.addCase(changeFilter, (state, action) => action.payload);
+});
 
-    default:
-      return state;
-  }
-};
+/////////// без библиотеки toolkit//////////
 
-const filterReducer = (state = "", action) => {
-  switch (action.type) {
-    case TYPE.FILTER:
-      return action.payload;
+// const itemsReducer = (state = [], action) => {
+//   switch (action.type) {
+//     case TYPE.SET:
+//       return action.payload;
 
-    default:
-      return state;
-  }
-};
+//     case TYPE.ADD:
+//       return [...state, action.payload];
+
+//     case TYPE.EDIT:
+//       return state.map((product) =>
+//         product.id === action.payload.id ? action.payload : product
+//       );
+
+//     case TYPE.DELETE:
+//       return state.filter((product) => product.id !== action.payload.id);
+
+//     default:
+//       return state;
+//   }
+// };
+
+// const filterReducer = (state = "", action) => {
+//   switch (action.type) {
+//     case TYPE.FILTER:
+//       return action.payload;
+
+//     default:
+//       return state;
+//   }
+// };
 
 const productsReducer = combineReducers({
   items: itemsReducer,
