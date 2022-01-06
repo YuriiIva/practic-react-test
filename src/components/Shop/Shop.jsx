@@ -64,7 +64,7 @@ const Shop = () => {
       dispatch(editProduct(newEditProduct));
     };
     onEditProducts();
-  }, [activeProduct]);
+  }, [activeProduct, dispatch]);
 
   /////////// Delete //////////
 

@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
+// import { combineReducers } from "redux";
 // import { TYPE } from "./productsTypes";
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, combineReducers } from "@reduxjs/toolkit";
 import {
   setProducts,
   addProduct,
@@ -11,7 +11,7 @@ import {
 
 const itemsReducer = createReducer([], (builder) => {
   builder
-    .addCase(setProducts, (state, action) => action.payload)
+    .addCase(setProducts, (_, action) => action.payload)
     .addCase(addProduct, (state, action) => [...state, action.payload])
     .addCase(editProduct, (state, action) =>
       state.map((product) =>

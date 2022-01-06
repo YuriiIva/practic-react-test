@@ -1,8 +1,7 @@
 import s from "./Filter.module.css";
 import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeFilter } from "../../redux/products/productsAction";
-import { setProducts } from "../../redux/products/productsAction";
+import { changeFilter, setProducts } from "../../redux/products/productsAction";
 
 const Filter = () => {
   const filter = useSelector((state) => state.products.filter);
