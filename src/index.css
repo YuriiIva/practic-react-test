@@ -45,7 +45,7 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: beige;
+  /* background-color: beige; */
   width: 600px;
   margin: 0 auto;
   margin-top: 10px;

@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useContext } from "react";
+import { ThemeContext, themes } from "context/themecontext";
 import {
   setProducts,
   editProduct,
@@ -11,7 +13,9 @@ import Filter from "components/Filter/Filter";
 import Products from "components/Products/Products";
 import Modal from "components/common/Modal/Modal";
 import ModalChange from "components/ModalChange/ModalChange";
+import ThemeSwitcher from "components/common/ThemeSwitcher/ThemeSwitcher";
 import * as Api from "services/Api";
+import s from "./Shop.module.css";
 
 const API_ANDPOINT = "products";
 
@@ -24,6 +28,7 @@ const Shop = () => {
 
   const allProducts = useSelector((state) => state.products.items);
   const dispatch = useDispatch();
+  const { theme } = useContext(ThemeContext);
 
   /////set////////
 
@@ -88,7 +93,8 @@ const Shop = () => {
   const noProducts = !allProducts.length;
 
   return (
-    <div>
+    <div className={theme === themes.light ? s.lightTheme : s.darkTheme}>
+      <ThemeSwitcher />
       <button type="button" onClick={toggleForm} className="mainBtn">
         Add Product
       </button>

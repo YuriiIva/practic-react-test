@@ -1,0 +1,9 @@
+.lightTheme {
+  /* composes: main; */
+  background-color: #dfdfdf;
+}
+
+.darkTheme {
+  /* composes: main; */
+  background-color: #444;
+}
